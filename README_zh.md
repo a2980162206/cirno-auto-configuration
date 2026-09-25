@@ -1,13 +1,31 @@
-# Cirno 一键脚本（中文）
+# Cirno 一键脚本
 
 [English](README.md) | **中文**
 
-单文件、零依赖的 Cirno 配置管理工具。有 root 就能跑，不需要 Termux / Python / busybox。
+Cirno 墓碑（后台冻结）一键配置脚本。自动采集已安装应用的包名并写入 Cirno 配置文件。**只要有 root 就能用** —— 不需要 Termux、不需要 Python、不需要 busybox，全程无需任何手动操作。
+
+## 下载
+
+- [Release v1.0.1](https://github.com/a2980162206/cirno-auto-configuration/releases/latest)
+- 直链：[`cirno.sh`](https://github.com/a2980162206/cirno-auto-configuration/releases/download/v1.0.1/cirno.sh) · [`Cirno-yijian-jiaoben.sh`](https://github.com/a2980162206/cirno-auto-configuration/releases/download/v1.0.1/Cirno-yijian-jiaoben.sh)（内容相同）
+- 仓库内：[`cirno.sh`](cirno.sh) · [`Cirno一键脚本.sh`](Cirno%E4%B8%80%E9%94%AE%E8%84%9A%E6%9C%AC.sh)
+
+## 安装与运行
 
 ```sh
-sh Cirno一键脚本.sh          # 一键全套：修权限+体检+同步+重启
-sh Cirno一键脚本.sh menu     # 交互菜单
-sh Cirno一键脚本.sh help     # 全部命令
+# 1. 把脚本推到手机
+adb push cirno.sh /data/local/tmp/cirno.sh
+
+# 2. 用 root 跑，就这一步
+su -c "sh /data/local/tmp/cirno.sh"
+```
+
+跑起来后会自动扫描已装应用、修权限/属主/SELinux、校验 JSON、备份、写入、重载 Cirno，不用再手动做任何事。
+
+```sh
+sh cirno.sh          # 一键全套：修权限+体检+同步+重启
+sh cirno.sh menu     # 交互菜单
+sh cirno.sh help     # 全部命令
 ```
 
 ## 解决的三个坑
@@ -74,9 +92,19 @@ backups · rollback [n]
 
 每次写入前自动备份，保留最近 20 份。
 
+## 运行要求
+
+- 已 root 的 Android（Magisk / KernelSU）
+- 已安装 Cirno
+- `mksh` —— 脚本会自己 `exec /system/bin/sh`，**不要**用 bash 跑
+
 ## 常见问题
 
 - **同步了没变化** → 跑 `hotcheck`：无事件=inode 被换/进程不在；有事件但读取失败 → `fix-perm`
 - **开关点不动** → 配置得是 `包名#0`，跑 `normalize`
 - **没抓到包** → 确认 root
 - **数组全空** → 别用 bash 跑，脚本必须走 mksh（会自动 `exec /system/bin/sh`）
+
+## 许可证
+
+GNU GPL v3.0 —— 见 [LICENSE](LICENSE)。
