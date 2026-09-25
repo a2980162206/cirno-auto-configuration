@@ -2,12 +2,30 @@
 
 **English** | [中文](README_zh.md)
 
-Single-file, zero-dependency config manager for Cirno. Root is all you need — no Termux / Python / busybox required.
+A one-click tombstone (background-freeze) configuration script for Cirno. It auto-collects the package names of installed apps and writes them into Cirno's config files. **Root is all it needs** — no Termux, no Python, no busybox, and no manual steps at all.
+
+## Download
+
+- [Release v1.0.1](https://github.com/a2980162206/cirno-auto-configuration/releases/latest)
+- Direct: [`cirno.sh`](https://github.com/a2980162206/cirno-auto-configuration/releases/download/v1.0.1/cirno.sh) · [`Cirno-yijian-jiaoben.sh`](https://github.com/a2980162206/cirno-auto-configuration/releases/download/v1.0.1/Cirno-yijian-jiaoben.sh) (same content)
+- In-repo copies: [`cirno.sh`](cirno.sh) · [`Cirno一键脚本.sh`](Cirno%E4%B8%80%E9%94%AE%E8%84%9A%E6%9C%AC.sh)
+
+## Install & Run
 
 ```sh
-sh Cirno一键脚本.sh          # one-shot: fix perms + doctor + sync + reload
-sh Cirno一键脚本.sh menu     # interactive menu
-sh Cirno一键脚本.sh help     # full command list
+# 1. push the script to the phone
+adb push cirno.sh /data/local/tmp/cirno.sh
+
+# 2. run as root — that's it
+su -c "sh /data/local/tmp/cirno.sh"
+```
+
+Once run, the script detects installed packages, fixes permissions / owner / SELinux labels, validates JSON, backs up, writes, and reloads Cirno. Nothing else to do by hand.
+
+```sh
+sh cirno.sh          # one-shot: fix perms + doctor + sync + reload
+sh cirno.sh menu     # interactive menu
+sh cirno.sh help     # full command list
 ```
 
 ## The Three Pitfalls It Solves
@@ -74,9 +92,19 @@ backups · rollback [n]
 
 Every write is auto-backed up, keeping the latest 20 copies.
 
+## Requirements
+
+- Android with **root** (Magisk / KernelSU)
+- Cirno installed
+- `mksh` — the script re-execs `/system/bin/sh` by itself, so do **not** run it with bash
+
 ## FAQ
 
 - **Synced but nothing changed** → run `hotcheck`: no event = inode swapped / process gone; event present but read fails → `fix-perm`
 - **Toggles won't respond** → entries must be `pkg#0`, run `normalize`
 - **No packages detected** → verify root
 - **Arrays all empty** → don't run it with bash; the script must run under mksh (it will `exec /system/bin/sh` itself)
+
+## License
+
+GNU GPL v3.0 — see [LICENSE](LICENSE).
