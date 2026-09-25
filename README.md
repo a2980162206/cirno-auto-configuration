@@ -1,16 +1,29 @@
-# Cirno One-Click Script
+# Cirno Tombstone One-Click
 
 **English** | [中文](README_zh.md)
 
-A one-click tombstone (background-freeze) configuration script for Cirno. It auto-collects the package names of installed apps and writes them into Cirno's config files. **Root is all it needs** — no Termux, no Python, no busybox, and no manual steps at all.
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/a2980162206/cirno-tombstone-oneclick)](https://github.com/a2980162206/cirno-tombstone-oneclick/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/a2980162206/cirno-tombstone-oneclick/total)](https://github.com/a2980162206/cirno-tombstone-oneclick/releases)
+[![Stars](https://img.shields.io/github/stars/a2980162206/cirno-tombstone-oneclick)](https://github.com/a2980162206/cirno-tombstone-oneclick/stargazers)
+
+One-click tombstone / background-freeze configurator for **Cirno**. It collects the package names of every installed app and writes them straight into Cirno's config. **Root is all it needs** - no Termux, no Python, no busybox, and no manual steps at all.
+
+![demo](docs/demo.gif)
+
+## Screenshots
+
+| One-shot run | Cirno app list after sync | Cirno toggles |
+|---|---|---|
+| ![run](docs/ss-run.jpg) | ![list](docs/ss-applist.jpg) | ![settings](docs/ss-settings.png) |
 
 ## Download
 
-- **Latest (v1.0.2)** - [Release page](https://github.com/a2980162206/cirno-auto-configuration/releases/latest) | direct [`cirno.sh`](https://github.com/a2980162206/cirno-auto-configuration/releases/download/v1.0.2/cirno.sh)
-- Older versions: [`v1.0.1`](https://github.com/a2980162206/cirno-auto-configuration/releases/tag/v1.0.1)
+- **Latest (v1.0.2)** - [Release page](https://github.com/a2980162206/cirno-tombstone-oneclick/releases/latest) | direct [`cirno.sh`](https://github.com/a2980162206/cirno-tombstone-oneclick/releases/download/v1.0.2/cirno.sh)
+- Older versions: [`v1.0.1`](https://github.com/a2980162206/cirno-tombstone-oneclick/releases/tag/v1.0.1)
 - In-repo copies: [`cirno.sh`](cirno.sh) (latest) | [`cirno-v1.0.1.sh`](cirno-v1.0.1.sh) (archived)
 
-> **v1.0.2 changelog** - fixed the bug where the Cirno app could not read the written config. The three package-list writers used a printf format string ending in a space, so every package name got a stray trailing space and Cirno could not match the entries. They now write clean names.
+> **v1.0.2 changelog** - fixed the bug where the Cirno app could not read the written config. Three package-list writers used a printf format string ending in a space, so every package name got a stray trailing space and Cirno could not match the entries. They now write clean names.
 
 ## Install & Run
 
@@ -18,7 +31,7 @@ A one-click tombstone (background-freeze) configuration script for Cirno. It aut
 # 1. push the script to the phone
 adb push cirno.sh /data/local/tmp/cirno.sh
 
-# 2. run as root — that's it
+# 2. run as root - that is it
 su -c "sh /data/local/tmp/cirno.sh"
 ```
 
@@ -36,7 +49,7 @@ sh cirno.sh help     # full command list
 |---|---|---|
 | Wrong permission / owner / SELinux label | `Read Config failed` | After write: `restorecon` + `660` + `1000:1000`, then self-check |
 | Using `mv`/`rename` to swap the file | Config changed but the app ignores it | `cat >` in-place overwrite, keeps the inode |
-| Writing real UIDs (`pkg#10270`) | Toggles in the UI won't move | Always `pkg#0`; `normalize` converts in one shot |
+| Writing real UIDs (`pkg#10270`) | Toggles in the UI will not move | Always `pkg#0`; `normalize` converts in one shot |
 
 ## Paths
 
@@ -47,9 +60,9 @@ sh cirno.sh help     # full command list
 | `BAK` | `/data/adb/cirno/backup` |
 | `LOG` | `/data/system/Cirno/log/current.log` |
 
-JSON read/write is handled by a built-in awk engine dumped to `/data/local/tmp/.cirno_j.awk` at startup — that is why it has zero dependencies.
+JSON read/write is handled by a built-in awk engine dumped to `/data/local/tmp/.cirno_j.awk` at startup - that is why it has zero dependencies.
 
-Write pipeline: validate JSON → take log baseline → backup → record inode → `cat >` overwrite → `restorecon`/`chmod`/`chown` → compare inode → self-check permissions. Invalid JSON is aborted outright, never leaving a half-written file.
+Write pipeline: validate JSON -> take log baseline -> backup -> record inode -> `cat >` overwrite -> `restorecon`/`chmod`/`chown` -> compare inode -> self-check permissions. Invalid JSON is aborted outright, never leaving a half-written file.
 
 ## Commands
 
@@ -65,9 +78,9 @@ sync pick             # pick fields interactively
 sync <field> [options...]
 ```
 
-Options: `--all` include system packages · `--merge` append only · `--dry-run/-n` preview · `--no-reload` skip restart after write · `--all-fields` every field · `--bw` include black/white lists · `--uid` real UID (not recommended)
+Options: `--all` include system packages | `--merge` append only | `--dry-run/-n` preview | `--no-reload` skip restart after write | `--all-fields` every field | `--bw` include black/white lists | `--uid` real UID (not recommended)
 
-> `all`/`merge`/`uid`/`dry` all imply `--auto`, which by default only syncs `blockAutostartApps`, `networkMessageApps`, `networkSpeedApps`. Black/white lists are skipped by default (they are hand-picked semantics) — add `--bw` to include them.
+> `all`/`merge`/`uid`/`dry` all imply `--auto`, which by default only syncs `blockAutostartApps`, `networkMessageApps`, `networkSpeedApps`. Black/white lists are skipped by default (they are hand-picked semantics) - add `--bw` to include them.
 
 **Browse**
 
@@ -80,16 +93,16 @@ Selection syntax: `3` / `1 3 5` / `1,3,5` / `1-4` / `blackApps` / `黑名单` / 
 **Edit**
 
 ```sh
-validate [app|global] · show [app|global] [field] · keys [app|global]
-add <field> <pkg...> · del <field> <pkg...>
-set [app|global] <field> <JSON value> · unset [app|global] <field>
+validate [app|global] | show [app|global] [field] | keys [app|global]
+add <field> <pkg...> | del <field> <pkg...>
+set [app|global] <field> <JSON value> | unset [app|global] <field>
 ```
 
 **Maintenance**
 
 ```sh
-doctor · diff [field] · normalize · fix-perm · hotcheck [seconds] · log [lines] · reload
-backups · rollback [n]
+doctor | diff [field] | normalize | fix-perm | hotcheck [seconds] | log [lines] | reload
+backups | rollback [n]
 ```
 
 Every write is auto-backed up, keeping the latest 20 copies.
@@ -98,15 +111,19 @@ Every write is auto-backed up, keeping the latest 20 copies.
 
 - Android with **root** (Magisk / KernelSU)
 - Cirno installed
-- `mksh` — the script re-execs `/system/bin/sh` by itself, so do **not** run it with bash
+- `mksh` - the script re-execs `/system/bin/sh` by itself, so do **not** run it with bash
 
 ## FAQ
 
-- **Synced but nothing changed** → run `hotcheck`: no event = inode swapped / process gone; event present but read fails → `fix-perm`
-- **Toggles won't respond** → entries must be `pkg#0`, run `normalize`
-- **No packages detected** → verify root
-- **Arrays all empty** → don't run it with bash; the script must run under mksh (it will `exec /system/bin/sh` itself)
+- **Synced but nothing changed** -> run `hotcheck`: no event = inode swapped / process gone; event present but read fails -> `fix-perm`
+- **Toggles will not respond** -> entries must be `pkg#0`, run `normalize`
+- **No packages detected** -> verify root
+- **Arrays all empty** -> do not run it with bash; the script must run under mksh (it will `exec /system/bin/sh` itself)
+
+## Keywords
+
+Cirno tombstone, background freeze, app freezer, kill background apps, Android battery saver, Magisk module helper, KernelSU, one-click script, package name sync, 墓碑, 后台冻结, 一键脚本, 包名同步, 免杀后台
 
 ## License
 
-GNU GPL v3.0 — see [LICENSE](LICENSE).
+GNU GPL v3.0 - see [LICENSE](LICENSE).
