@@ -6,9 +6,11 @@ Cirno 墓碑（后台冻结）一键配置脚本。自动采集已安装应用�
 
 ## 下载
 
-- [Release v1.0.1](https://github.com/a2980162206/cirno-auto-configuration/releases/latest)
-- 直链：[`cirno.sh`](https://github.com/a2980162206/cirno-auto-configuration/releases/download/v1.0.1/cirno.sh) · [`Cirno-yijian-jiaoben.sh`](https://github.com/a2980162206/cirno-auto-configuration/releases/download/v1.0.1/Cirno-yijian-jiaoben.sh)（内容相同）
-- 仓库内：[`cirno.sh`](cirno.sh) · [`Cirno一键脚本.sh`](Cirno%E4%B8%80%E9%94%AE%E8%84%9A%E6%9C%AC.sh)
+- **最新（v1.0.2）** - [Release 页](https://github.com/a2980162206/cirno-auto-configuration/releases/latest) | 直链 [`cirno.sh`](https://github.com/a2980162206/cirno-auto-configuration/releases/download/v1.0.2/cirno.sh)
+- 旧版本：[`v1.0.1`](https://github.com/a2980162206/cirno-auto-configuration/releases/tag/v1.0.1)
+- 仓库内：[`cirno.sh`](cirno.sh)（最新） | [`cirno-v1.0.1.sh`](cirno-v1.0.1.sh)（归档）
+
+> **v1.0.2 更新** - 修复 Cirno App 读不到写入配置的 bug。三处包名列表写入的 printf 格式串尾部多了一个空格，每个包名都被写成带尾随空格的形式，Cirno 匹配不上，现已修正。
 
 ## 安装与运行
 
