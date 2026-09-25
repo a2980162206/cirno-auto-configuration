@@ -1080,7 +1080,7 @@ c_bulksync() {
     [ -n "$dflag" ] && info "预览模式, 不会写入"
 
     VF="$TMPD/.cirno_bulk"
-    printf '%s\n ' "${PKGS[@]}" > "$VF"
+    printf '%s\n' "${PKGS[@]}" > "$VF"
 
     for tf in $(cfgs); do
         sel_for_file "$tf" > "$TMPD/.cirno_sel"
@@ -1177,7 +1177,7 @@ c_del() {
     [ $# -ge 2 ] || die "用法: del <字段> <包名...>"
     k="$1"; shift
     p="$APP"
-    printf '%s\n ' "$@" > "$TMPD/.cirno_vals"
+    printf '%s\n' "$@" > "$TMPD/.cirno_vals"
     jwo del "$p" "$k" "$p.tmp" -v valsfile="$TMPD/.cirno_vals"
     strip_status
     apply_edit "$p" "从 $k 删除" warn "没找到"
@@ -1483,7 +1483,7 @@ c_sync() {
     fi
 
     VF="$TMPD/.cirno_pkgs"
-    printf '%s\n ' "${PKGS[@]}" > "$VF"
+    printf '%s\n' "${PKGS[@]}" > "$VF"
 
     good=0; bad=0; chg=0
     for f in $fields; do
