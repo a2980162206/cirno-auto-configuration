@@ -6,9 +6,11 @@ A one-click tombstone (background-freeze) configuration script for Cirno. It aut
 
 ## Download
 
-- [Release v1.0.1](https://github.com/a2980162206/cirno-auto-configuration/releases/latest)
-- Direct: [`cirno.sh`](https://github.com/a2980162206/cirno-auto-configuration/releases/download/v1.0.1/cirno.sh) · [`Cirno-yijian-jiaoben.sh`](https://github.com/a2980162206/cirno-auto-configuration/releases/download/v1.0.1/Cirno-yijian-jiaoben.sh) (same content)
-- In-repo copies: [`cirno.sh`](cirno.sh) · [`Cirno一键脚本.sh`](Cirno%E4%B8%80%E9%94%AE%E8%84%9A%E6%9C%AC.sh)
+- **Latest (v1.0.2)** - [Release page](https://github.com/a2980162206/cirno-auto-configuration/releases/latest) | direct [`cirno.sh`](https://github.com/a2980162206/cirno-auto-configuration/releases/download/v1.0.2/cirno.sh)
+- Older versions: [`v1.0.1`](https://github.com/a2980162206/cirno-auto-configuration/releases/tag/v1.0.1)
+- In-repo copies: [`cirno.sh`](cirno.sh) (latest) | [`cirno-v1.0.1.sh`](cirno-v1.0.1.sh) (archived)
+
+> **v1.0.2 changelog** - fixed the bug where the Cirno app could not read the written config. The three package-list writers used a printf format string ending in a space, so every package name got a stray trailing space and Cirno could not match the entries. They now write clean names.
 
 ## Install & Run
 
